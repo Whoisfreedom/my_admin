@@ -1,0 +1,168 @@
+{
+	"recording": {
+		"name": "出库、发货记录",
+		"list": 
+		[
+			{
+				"date": "2016-05-02",
+				"name": "iphone6",
+				"number": 12,
+				"color":"white",
+				"price":4000,
+				"address": "上海市普陀区金沙江路 1518 弄"
+			},
+			{
+				"date": "2016-05-03",
+				"name": "iphone6s",
+				"number": 14,
+				"color":"black",
+				"price":5000,
+				"address": "上海市普陀区金沙江路 1518 弄"
+			},
+			{
+				"date": "2016-05-04",
+				"name": "iphone3",
+				"number": 32,
+				"color":"gold",
+				"price":1000,
+				"address": "上海市普陀区金沙江路 1518 弄"
+			},
+			{
+				"date": "2016-05-05",
+				"name": "iphone4",
+				"number": 523,
+				"color":"white",
+				"price":2000,
+				"address": "上海市普陀区金沙江路 1518 弄"
+			},
+			{
+				"date": "2016-05-06",
+				"name": "iphone5",
+				"number": 43,
+				"color":"black",
+				"price":3000,
+				"address": "上海市普陀区金沙江路 1518 弄"
+			},
+			{
+				"date": "2016-05-07",
+				"name": "iphone6s",
+				"number": 754,
+				"color":"gold",
+				"price":5000,
+				"address": "上海市普陀区金沙江路 1518 弄"
+			},
+			{
+				"date": "2016-05-08",
+				"name": "iphone6",
+				"number": 165,
+				"color":"white",
+				"price":4000,
+				"address": "上海市普陀区金沙江路 1518 弄"
+			},
+			{
+				"date": "2016-05-09",
+				"name": "iphone6s",
+				"number": 55,
+				"color":"black",
+				"price":5000,
+				"address": "上海市普陀区金沙江路 1518 弄"
+			},
+			{
+				"date": "2016-05-10",
+				"name": "iphone6",
+				"number": 345,
+				"color":"gold",
+				"price":4000,
+				"address": "上海市普陀区金沙江路 1518 弄"
+			},
+			{
+				"date": "2016-05-11",
+				"name": "iphone6s",
+				"number": 54,
+				"color":"white",
+				"price":5000,
+				"address": "上海市普陀区金沙江路 1518 弄"
+			},
+			{
+				"date": "2016-05-12",
+				"name": "iphone6sp",
+				"number": 64,
+				"color":"black",
+				"price":6000,
+				"address": "上海市普陀区金沙江路 1518 弄"
+			},
+			{
+				"date": "2016-05-13",
+				"name": "iphone6s",
+				"number": 234,
+				"color":"gold",
+				"price":5000,
+				"address": "上海市普陀区金沙江路 1518 弄"
+			},
+			{
+				"date": "2016-05-14",
+				"name": "iphone6",
+				"number": 45,
+				"color":"white",
+				"price":4000,
+				"address": "上海市普陀区金沙江路 1518 弄"
+			},
+			{
+				"date": "2016-05-15",
+				"name": "iphone6s",
+				"number": 165,
+				"color":"black",
+				"price":5000,
+				"address": "上海市普陀区金沙江路 1518 弄"
+			},
+			{
+				"date": "2016-05-16",
+				"name": "iphone6s",
+				"number": 54,
+				"color":"gold",
+				"price":5000,
+				"address": "上海市普陀区金沙江路 1518 弄"
+			},
+			{
+				"date": "2016-05-17",
+				"name": "iphone6",
+				"number": 54,
+				"color":"white",
+				"price":4000,
+				"address": "上海市普陀区金沙江路 1518 弄"
+			},
+			{
+				"date": "2016-05-18",
+				"name": "iphone6s",
+				"number": 654,
+				"color":"black",
+				"price":5000,
+				"address": "上海市普陀区金沙江路 1518 弄"
+			},
+			{
+				"date": "2016-05-19",
+				"name": "iphone6s",
+				"number": 65,
+				"color":"gold",
+				"price":5000,
+				"address": "上海市普陀区金沙江路 1518 弄"
+			},
+			{
+				"date": "2016-05-20",
+				"name": "iphone6s",
+				"number": 45,
+				"color":"white",
+				"price":5000,
+				"address": "上海市普陀区金沙江路 1518 弄"
+			},
+			{
+				"date": "2016-05-21",
+				"name": "iphone6s",
+				"number": 456,
+				"color":"black",
+				"price":5000,
+				"address": "上海市普陀区金沙江路 1518 弄"
+			}
+		]
+	}
+}
