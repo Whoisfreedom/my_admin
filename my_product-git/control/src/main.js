@@ -5,7 +5,8 @@ import App from './App'
 import VueRouter from 'vue-router'
 import routeConfig from './router-config'  // 引入router-config.js文件
 import VueResource from 'vue-resource'
-
+import 'element-ui/lib/theme-default/index.css'
+import 'font-awesome/css/font-awesome.min.css'
 //加载路由中间件
 Vue.use(VueResource)
 Vue.use(VueRouter)

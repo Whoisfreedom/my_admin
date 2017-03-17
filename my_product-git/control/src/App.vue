@@ -175,8 +175,7 @@
 <script>
 import Vue from 'vue'
 import Element from 'element-ui'
-import 'element-ui/lib/theme-default/index.css'
-import 'font-awesome/css/font-awesome.min.css'
+
 
 Vue.use(Element)
 export default {
@@ -317,6 +316,7 @@ header .down{
 .router-body{
     height:calc(100% - 30px);
     background-color: #ffffff;
+    padding-top: 20px;
   }
 .el-form-item__content:after{
   display: none!important;
