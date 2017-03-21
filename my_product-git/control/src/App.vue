@@ -316,7 +316,8 @@ header .down{
 .router-body{
     height:calc(100% - 30px);
     background-color: #ffffff;
-    padding-top: 20px;
+    padding-top: 10px;
+    box-sizing: border-box;
   }
 .el-form-item__content:after{
   display: none!important;

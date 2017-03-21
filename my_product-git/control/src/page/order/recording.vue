@@ -11,26 +11,30 @@
       <!-- 搜索栏 -->
       <div class="searchAndSet">
           <el-input v-model="search" placeholder="请输入搜索内容"></el-input>
-          <el-button>搜索</el-button>
+          <el-select v-model="searvhValue" placeholder="请选择搜索条件">
+            <el-option v-for="item in options" :label="item.label" :value="item.value" :key="item.id">
+            </el-option>
+          </el-select>
+          <el-button @click="searchUser(searvhValue)">搜索</el-button>
           <el-button type="primary" @click="dialogFormVisible = true">添加</el-button>
       </div>
 			<el-table :data="tableData" border style="width: 100%" max-height="700" @select="selsChange">
           <el-table-column type="selection" width="55">
           </el-table-column>
-          <el-table-column type="index" width="55">
+			    <el-table-column label="用户ID" width="150"  prop="userId" align="center" sortable>
+			    </el-table-column>
+			    <el-table-column label="用户名称" width="150" prop="userName" align="center">
+			    </el-table-column>
+			    <el-table-column label="地址" width="150" prop="address" align="center">
+			    </el-table-column>
+			    <el-table-column label="电话"  width="150" prop="phone" align="center">
+			    </el-table-column>
+			    <el-table-column label="注册时间" width="150" prop="registerTime" align="center" sortable>
+			    </el-table-column>
+			    <el-table-column label="登录次数" width="150" prop="loginCount" align="center" sortable>
+			    </el-table-column>
+          <el-table-column label="最后登录时间" width="150" prop="lastLoginTime" align="center" sortable>
           </el-table-column>
-			    <el-table-column label="日期" width="150"  prop="date" align="center">
-			    </el-table-column>
-			    <el-table-column label="名称" width="120" prop="name" align="center">
-			    </el-table-column>
-			    <el-table-column label="数量" width="120" prop="number" align="center">
-			    </el-table-column>
-			    <el-table-column label="地址"  width="180" prop="address" align="center">
-			    </el-table-column>
-			    <el-table-column label="颜色" width="120" prop="color" align="center">
-			    </el-table-column>
-			    <el-table-column label="价格" width="120" prop="price" align="center">
-			    </el-table-column>
 			    <el-table-column fixed="right" label="操作" width="180" align="center">
   		      <template scope="scope" style="text-align:center">
   		        <el-button size="small" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
@@ -46,8 +50,8 @@
 			      @current-change="handleCurrentChange"
 			      :current-page="1"
 			      :page-sizes="[10, 20, 30, 40]"
-			      :page-size="pagesize"
-			      layout="total, sizes, prev, pager, next, jumper"
+			      :page-size="getUserData.pageSize"
+			      layout="total, sizes, prev, pager, next"
 			      :total="datalength">
 			    </el-pagination>
 			  </div>
@@ -62,25 +66,20 @@
       <!-- 弹出添加信息的表单 -->
       <div class="addForm">
           <el-dialog title="添加信息" v-model="dialogFormVisible">
-          <el-form :model="addForm" :rules="rules" ref="addForm">
-            <el-form-item label="名称" prop="name">
-              <el-input v-model="addForm.name" :min="0" :max="200"></el-input>
+          <el-form :model="addForm" :rules="addRules" ref="addForm">
+            <el-form-item label="用户名" prop="userName">
+              <el-input v-model="addForm.userName" :min="0" :max="200"></el-input>
             </el-form-item>
-            <el-form-item label="地址">
+            <el-form-item label="密码" prop="passWord">
+              <el-input v-model="addForm.passWord" :min="0" :max="200"></el-input>
+            </el-form-item>
+            <el-form-item label="地址" prop="address">
               <el-input v-model="addForm.address" :min="0" :max="200"></el-input>
             </el-form-item>
-            <el-form-item label="日期">
-             <el-date-picker type="date" placeholder="选择日期" v-model="addForm.date"></el-date-picker>
             </el-form-item>
-            <el-form-item label="数量">
-              <el-input-number v-model="addForm.number" :min="0" :max="200"></el-input-number>
-            </el-form-item>
-            <el-form-item label="价格">
-              <el-input-number v-model="addForm.price" :min="0" :max="200"></el-input-number><span>元</span>
-            </el-form-item>
-            <el-form-item label="颜色">
-              <el-input v-model="addForm.color" :min="0" :max="200"></el-input>
-            </el-form-item>           
+            <el-form-item label="电话" prop="phone">
+              <el-input v-model="addForm.phone" :min="0" :max="200"></el-input>
+            </el-form-item>         
           </el-form>
           <div slot="footer" class="dialog-footer">
             <el-button @click="dialogFormVisible = false">取 消</el-button>
@@ -91,28 +90,22 @@
       <!-- 弹出编辑信息的页面 -->
       <div class="changeForm">
           <el-dialog title="添加信息" v-model="dialogFormChange">
-          <el-form :model="changeForm" :rules="rules" ref="changeForm">
-            <el-form-item label="名称" prop="name">
-              <el-input v-model="changeForm.name" :min="0" :max="200"></el-input>
+          <el-form :model="changeForm" :rules="changeRules" ref="changeForm">
+            <el-form-item label="用户名" prop="userName">
+              <el-input v-model="changeForm.userName" :min="0" :max="200"></el-input>
             </el-form-item>
-            <el-form-item label="地址">
+            <el-form-item label="密码" prop="passWord">
+              <el-input v-model="changeForm.passWord" :min="0" :max="200"></el-input>
+            </el-form-item>
+            <el-form-item label="地址" prop="address">
               <el-input v-model="changeForm.address" :min="0" :max="200"></el-input>
             </el-form-item>
-            <el-form-item label="日期">
-             <el-date-picker type="date" placeholder="选择日期" v-model="changeForm.date"></el-date-picker>
-            </el-form-item>
-            <el-form-item label="数量">
-              <el-input-number v-model="changeForm.number" :min="0" :max="200"></el-input-number>
-            </el-form-item>
-            <el-form-item label="价格">
-              <el-input-number v-model="changeForm.price" :min="0" :max="200"></el-input-number><span>元</span>
-            </el-form-item>
-            <el-form-item label="颜色">
-              <el-input v-model="changeForm.color" :min="0" :max="200"></el-input>
-            </el-form-item>           
+            <el-form-item label="电话" prop="phone">
+              <el-input v-model="changeForm.phone" :min="0" :max="200"></el-input>
+            </el-form-item>            
           </el-form>
           <div slot="footer" class="dialog-footer">
-            <el-button @click="dialogFormVisible = false">取 消</el-button>
+            <el-button @click="submitChangeForm = false">取 消</el-button>
             <el-button type="primary" @click="submitChangeForm">确 定</el-button>
           </div>
         </el-dialog>
@@ -122,14 +115,12 @@
 	</div>
 </template>
 <script type="text/javascript">
-  import {getUserList} from '../../api/api'
+  import {getUserList, methodsList, addUserInfo, changeUserInfo, deleteUserInfo} from '../../api/api'
   export default {
     data() {
       return {
         dialogVisible :false, //提示框是否显示
-        nowpage: 1,     //当前页面
-        datalength: 0,  //数据长度
-        pagesize:10,    //每个页面的显示数据
+        datalength: 0,  //数据长度          
         tableData: [],  //当前页面数据
         deleteIndex : -1, //需要删除的数据下标
         search:'',       //搜索栏内容
@@ -137,30 +128,67 @@
         loading:false,  //loading动画
         sels:[],//多选选择器
         dialogFormChange:false, //允许编辑弹出框弹出
+        deleteId:'',
         //添加个人数据初始化
         addForm:{
-          date:'',
-          name:'',
-          number:0,
+          userName:'',
+          passWord:'',
           address:'',
-          color:'',
-          price:0
+          phone:''
         },
         //编辑个人数据初始化
         changeForm:{
-          date:'',
-          name:'',
-          number:0,
+          userName:'',
+          passWord:'',
           address:'',
-          color:'',
-          price:0,
-          productid:-100
+          phone:'',
+          userId:''
         },
-        rules:{
-          name: [
-            { required: true, message: '请输入名称', trigger: 'blur' }
-          ]
-        }
+        //发送数据参数
+        getUserData:{
+          pageIndex: 1 , //当前页面
+          pageSize:10, //每个页面的显示数据
+        },
+        //必填选项验证
+        addRules:{
+          userName: [
+            { required: true, message: '请输入用户名', trigger: 'blur' }
+          ],
+          passWord: [
+            { required: true, message: '请输入密码', trigger: 'blur' }
+          ],
+          address: [
+            { required: true, message: '请输入地址', trigger: 'blur' }
+          ],
+          phone: [
+            { required: true, message: '请输入电话号码', trigger: 'blur' }
+          ],
+        },
+        changeRules:{
+          userName: [
+            { required: true, message: '请输入用户名', trigger: 'blur' }
+          ],
+          passWord: [
+            { required: true, message: '请输入密码', trigger: 'blur' }
+          ],
+          address: [
+            { required: true, message: '请输入地址', trigger: 'blur' }
+          ],
+          phone: [
+            { required: true, message: '请输入电话号码', trigger: 'blur' }
+          ],
+        },
+        options:[{
+          value: 'userId',
+          label: '按用户ID查找'
+        }, {
+          value: 'userName',
+          label: '按用户名称查找'
+        }, {
+          value: 'phone',
+          label: '按用户电话查找'
+        }],
+        searvhValue:''
       }
     },
     // 页面渲染之前获取第一页的数据
@@ -169,6 +197,12 @@
     },
     // 方法
     methods: {
+      //搜索点击事件
+      searchUser(val){
+        console.log(val);
+        !val ? this.getUserData : this.getUserData[val] = this.search;
+        console.log(this.getUserData);
+      },
       // 删除信息成功弹窗
       open3(val) {
         this.$notify({
@@ -179,42 +213,70 @@
       },
       //添加信息并且重置
       submitAddForm(){
-        this.$refs.addForm.validate((valid) => {
-          if (valid) {
-            this.$refs.addForm.resetFields();
-            this.dialogFormVisible = false;
-          } else {
-            console.log('error submit!!');
-            return false;
-          }
-        });
-        this.getCustomers()
-        this.open3('添加');
+        // this.$refs.addForm.validate((valid) => {
+        //   if (valid) {
+        //     let addData = {
+        //       method:methodsList.addUser
+        //     };
+        //     for(var i in this.addForm){
+        //       addData[i] = this.addForm[i].toString();
+        //     };
+        //     console.log(addData);
+        //   addUserInfo(addData).then((response) => {
+        //         this.open3('添加');
+        //         this.$refs.addForm.resetFields();
+        //         this.dialogFormVisible = false;  
+        //         this.getCustomers()
+        //     })
+        //     .catch(function(response){
+        //         console.log(response)
+        //     })
+        //   } else {
+        //     console.log('error submit!!');
+        //     return false;
+        //   }
+        // });   
+              
       },
       //确认编辑信息
       submitChangeForm(){
-        this.$refs.changeForm.validate((valid) => {
-          if (valid) {
-            this.$refs.changeForm.resetFields();
-            this.dialogFormChange = false;
-          } else {
-            console.log('error submit!!');
-            return false;
-          }
-        });
-        this.getCustomers()
-        this.open3('修改');
+        // this.$refs.changeForm.validate((valid) => {
+        //   if (valid) {
+        //     let changeData = {
+        //       method:methodsList.changeUser
+        //     };
+        //     for(let i in this.changeForm){
+        //       changeData[i] = this.changeForm[i].toString();
+        //     };
+        //     console.log(changeForm);
+        //     changeUserInfo(changeForm).then((response) => {
+        //         this.open3('修改');
+        //         this.$refs.changeForm.resetFields();
+        //         this.dialogFormChange = false;
+        //         this.getCustomers()          
+        //     })
+        //     .catch(function(response){
+        //         console.log(response)
+        //     })
+        //   } else {
+        //     console.log('error submit!!');
+        //     return false;
+        //   }
+        // });
       },
-      // 详细信息
+      // 编辑详细信息
       handleEdit(index, row) {
         this.dialogFormChange = true;
-        this.changeForm = Object.assign({}, row);
+        for(let i in changeForm)
+        this.changeForm[i] = row[i]
         console.log(this.changeForm);
       },
       // 删除此条信息
       handleDelete(index, row) {
         this.dialogVisible = true;
         this.deleteIndex = index;
+        this.deleteId = row.userId;
+        console.log(index, row);
       },
       // 确认删除
       selectsure(index){
@@ -225,22 +287,14 @@
       // 修改页数事件
 	    handleSizeChange(val) {
         console.log(`每页 ${val} 条`);
+        this.getUserData.pageSize = val;
+        this.getCustomers();
       },
       // 翻页事件
       handleCurrentChange(val) {
-      this.currentPage = val;
+      this.getUserData.pageIndex = val;
       console.log(`当前页: ${val}`);
-      getUserList().then((response) => {
-              this.tableData = [];
-              var _data = response.data.data.list;
-              this.datalength = _data.length
-              for(var i = 10*(val-1);i<10*val;i++){
-              this.tableData.push(_data[i])
-              }
-          })
-          .catch(function(response){
-              console.log(response)
-          })
+      this.getCustomers();
       },
       //多选框选择事件
       selsChange(sels){
@@ -259,24 +313,27 @@
       },
       // 请求数据并重新渲染页面
       getCustomers(){
-        this.loading = true;
-        getUserList().then((response) => {
-            setTimeout(() => {
-              this.loading = false;
-            }, 1000);
-            console.log(response);
-            this.tableData=[];
-            var _data = response.data.data.list;
-            this.datalength = _data.length
-            var beginpage = this.datalength<10?this.datalength:10
-            for(var i = 0;i<beginpage;i++){
-            this.tableData.push(_data[i])
-          }
-            console.log(this.tableData)  
-        })
-        .catch(function(response){
-            console.log(response)
-        })
+        // let userData = {};
+        // userData.method = methodsList.getUser;
+        // for(var i in this.getUserData){
+        //   userData[i] = this.getUserData[i].toString();
+        // }
+        // // this.loading = true;
+        // getUserList(userData).then((response) => {
+        //     // this.loading = false;
+        //     console.log(response);
+        //     this.tableData=[];
+        //     var _data = response.data.objectResult;
+        //     this.datalength = _data.length
+        //     console.log(_data);
+        //     for(var i = 0;i<this.datalength;i++){
+        //     this.tableData.push(_data[i])
+        //   }
+        //     console.log(this.tableData)  
+        // })
+        // .catch(function(response){
+        //     console.log(response)
+        // })
       }
     }
   }	
@@ -290,7 +347,7 @@
     background-color: #ffffff;
   }
   .el-table{
-    height: 85%
+    max-height:85%;
   }
   .block .el-button{
     float: left;
@@ -300,21 +357,28 @@
     float: right;
   }
   .searchAndSet{
-    height: 60px;
+    height: 50px;
   }
   .searchAndSet .el-input{
-    display: inline-block;
+    float: left;
     width: 200px;
     padding-left:20px; 
+  }
+  .searchAndSet .el-select{
+    float: left;
+    margin-right: 20px;
+  }
+  .searchAndSet .el-button{
+    float: left;
   }
   .searchAndSet .el-input__inner{
     width: 100%;
   }
   .addForm .el-form-item__content{
-    margin-left: 60px;
+    margin-left: 80px;
   }
   .addForm .el-form-item__label{
-    width: 60px;
+    width: 80px;
     text-align: right;
   }
 </style>

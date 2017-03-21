@@ -9,4 +9,9 @@ module.exports = {
       : config.dev.cssSourceMap,
     extract: isProduction
   })
+  // postcss: [
+  // 	require('autoprefixer')({
+  // 		browsers: ["Chrome >= 1","Safari >= 1","Firefox >= 1","ie >= 8"]
+  // 	})
+  // ]
 }
